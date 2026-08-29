@@ -249,7 +249,7 @@ export default function ProductSection() {
                         </p>
 
                         <p className="mt-1 text-sm font-semibold text-slate-900">
-                          Acme Traders
+                          Avyay Enterprises
                         </p>
                       </div>
 
@@ -304,7 +304,7 @@ export default function ProductSection() {
                       <div className="mt-6 space-y-3">
                         <ActivityRow
                           title="Payment received"
-                          name="Acme Traders"
+                          name="Avyay Enterprises"
                           amount="₹24,500"
                         />
 
@@ -372,7 +372,7 @@ export default function ProductSection() {
                   </p>
 
                   <p className="mt-1 text-[11px] font-semibold text-slate-900">
-                    Acme Traders
+                    Avyay Enterprises
                   </p>
                 </div>
 

@@ -15,7 +15,7 @@ export default function CTASection() {
       </div>
 
       {/* =========================================================
-          CONTENT
+          CONTENT CARD
       ========================================================= */}
 
       <div className="relative mx-auto max-w-7xl px-6">
@@ -40,7 +40,7 @@ export default function CTASection() {
               <span className="h-px w-7 bg-[#16C784]" />
 
               <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#16C784]">
-                Get started with QuantPay
+                Start building with QuantPay
               </span>
 
               <span className="h-px w-7 bg-[#16C784]" />
@@ -49,19 +49,18 @@ export default function CTASection() {
             {/* Heading */}
 
             <h2 className="mt-8 text-5xl font-semibold leading-[0.9] tracking-[-0.065em] text-[#0D0D0D] sm:text-6xl md:text-7xl">
-              Connect your
+              Built for today.
               <br />
               <span className="text-[#16C784]">
-                business.
+                Ready for tomorrow.
               </span>
             </h2>
 
             {/* Copy */}
 
             <p className="mx-auto mt-8 max-w-xl text-[15px] leading-7 text-slate-500 sm:text-base sm:leading-8">
-              Bring your billing, customers, products and payments
-              together — and give your business one place to move
-              forward.
+              Start with the everyday tools your business needs and
+              build on the same system as you grow.
             </p>
 
             {/* Actions */}
@@ -71,7 +70,7 @@ export default function CTASection() {
                 href="/register"
                 className="group inline-flex h-12 items-center justify-center rounded-xl bg-[#0D0D0D] px-7 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(13,13,13,0.12)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-black hover:shadow-[0_18px_40px_rgba(13,13,13,0.17)]"
               >
-                Start with QuantPay
+                Get started
 
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </Link>
@@ -95,7 +94,7 @@ export default function CTASection() {
                 <span className="h-1.5 w-1.5 rounded-full bg-[#16C784]" />
 
                 <span className="text-[9px] font-medium uppercase tracking-[0.25em] text-slate-300">
-                  Built for scale
+                  Simple. Connected. Built for scale.
                 </span>
               </div>
 
