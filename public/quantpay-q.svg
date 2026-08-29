@@ -1,0 +1,22 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <!-- Black ring (filled, the "Q" circle) -->
+  <path
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    fill="#000000"
+    d="M512,40
+       a440,440 0 1,1 0,880
+       a440,440 0 1,1 0,-880
+       Z
+       M512,180
+       a300,300 0 1,0 0,600
+       a300,300 0 1,0 0,-600
+       Z"
+  />
+
+  <!-- Green diagonal tail (filled) -->
+  <polygon
+    points="500,637 695,637 990,970 785,970"
+    fill="#00C982"
+  />
+</svg>
