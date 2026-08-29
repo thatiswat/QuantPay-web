@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/marketing/Navbar";
-import Footer from "@/components/marketing/Footer";
 
 export const metadata: Metadata = {
   title: "QuantPay — Business Finance, Finally in One Place",
@@ -17,9 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen bg-white text-slate-950 antialiased">
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   );

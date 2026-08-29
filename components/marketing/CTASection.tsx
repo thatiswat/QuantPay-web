@@ -4,9 +4,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 export default function CTASection() {
   return (
     <section className="relative overflow-hidden bg-[#fafafa] py-28 md:py-36">
-      {/* =========================================================
-          BACKGROUND
-      ========================================================= */}
+      {/* Background */}
 
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-1/2 top-1/2 h-[600px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#16C784]/[0.035] blur-[140px]" />
@@ -14,13 +12,12 @@ export default function CTASection() {
         <div className="absolute inset-x-0 top-0 h-px bg-slate-200/70" />
       </div>
 
-      {/* =========================================================
-          CONTENT CARD
-      ========================================================= */}
+      {/* Content */}
 
       <div className="relative mx-auto max-w-7xl px-6">
         <div className="relative overflow-hidden rounded-[32px] border border-slate-200 bg-white px-7 py-16 shadow-[0_30px_90px_rgba(15,23,42,0.07)] sm:px-12 md:px-20 md:py-24">
-          {/* Subtle green glow */}
+
+          {/* Glows */}
 
           <div className="pointer-events-none absolute -right-32 -top-32 h-80 w-80 rounded-full bg-[#16C784]/[0.06] blur-[90px]" />
 
@@ -34,6 +31,7 @@ export default function CTASection() {
           </div>
 
           <div className="relative mx-auto max-w-4xl text-center">
+
             {/* Eyebrow */}
 
             <div className="flex items-center justify-center gap-3">
@@ -67,7 +65,7 @@ export default function CTASection() {
 
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
-                href="/register"
+                href="/app/billing"
                 className="group inline-flex h-12 items-center justify-center rounded-xl bg-[#0D0D0D] px-7 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(13,13,13,0.12)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-black hover:shadow-[0_18px_40px_rgba(13,13,13,0.17)]"
               >
                 Get started
@@ -100,6 +98,7 @@ export default function CTASection() {
 
               <div className="h-px flex-1 bg-slate-100" />
             </div>
+
           </div>
         </div>
       </div>
