@@ -65,7 +65,7 @@ export default function CTASection() {
 
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link
-                href="/app/billing"
+                href="/app"
                 className="group inline-flex h-12 items-center justify-center rounded-xl bg-[#0D0D0D] px-7 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(13,13,13,0.12)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-black hover:shadow-[0_18px_40px_rgba(13,13,13,0.17)]"
               >
                 Get started

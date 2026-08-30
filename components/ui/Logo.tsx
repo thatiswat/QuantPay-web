@@ -8,25 +8,27 @@ type QuantPayLogoProps = HTMLAttributes<HTMLDivElement> & {
 const sizes = {
   sm: {
     mark: "h-7 w-7",
-    text: "text-[19px]",
-    tracking: "tracking-[0.16em]",
+    text: "text-[17px]",
     gap: "gap-3",
+    letterGap: "gap-[0.16em]",
   },
 
   md: {
     mark: "h-9 w-9",
-    text: "text-[26px]",
-    tracking: "tracking-[0.155em]",
+    text: "text-[24px]",
     gap: "gap-3.5",
+    letterGap: "gap-[0.16em]",
   },
 
   lg: {
     mark: "h-12 w-12",
-    text: "text-[34px]",
-    tracking: "tracking-[0.15em]",
+    text: "text-[32px]",
     gap: "gap-4",
+    letterGap: "gap-[0.15em]",
   },
 };
+
+const letters = "QUANTPAY".split("");
 
 export default function QuantPayLogo({
   variant = "wordmark",
@@ -36,11 +38,9 @@ export default function QuantPayLogo({
 }: QuantPayLogoProps) {
   const scale = sizes[size];
 
-  /*
-   * ==========================================================
-   * MARK ONLY
-   * ==========================================================
-   */
+  /* ==========================================================
+     MARK
+  ========================================================== */
 
   if (variant === "mark") {
     return (
@@ -59,11 +59,9 @@ export default function QuantPayLogo({
     );
   }
 
-  /*
-   * ==========================================================
-   * WORDMARK
-   * ==========================================================
-   */
+  /* ==========================================================
+     WORDMARK
+  ========================================================== */
 
   return (
     <div
@@ -72,9 +70,7 @@ export default function QuantPayLogo({
       role="img"
       {...props}
     >
-      {/* ======================================================
-          Q MARK
-      ====================================================== */}
+      {/* Q MARK */}
 
       <img
         src="/quantpay-q.svg"
@@ -82,22 +78,25 @@ export default function QuantPayLogo({
         className={`${scale.mark} shrink-0 object-contain`}
       />
 
-      {/* ======================================================
-          QUANTPAY
-      ====================================================== */}
+      {/* WORDMARK */}
 
       <span
         className={[
+          "inline-flex items-center",
+          scale.letterGap,
           scale.text,
-          scale.tracking,
           "whitespace-nowrap",
-          "font-[700]",
+          "font-bold",
           "leading-none",
           "text-current",
-          "[font-family:Montserrat,sans-serif]",
+          "[font-family:'Century_Gothic','Century Gothic',sans-serif]",
         ].join(" ")}
       >
-        QUANTPAY
+        {letters.map((letter, index) => (
+          <span key={`${letter}-${index}`}>
+            {letter}
+          </span>
+        ))}
       </span>
     </div>
   );

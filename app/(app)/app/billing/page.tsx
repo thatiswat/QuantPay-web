@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import {
-  ArrowDown,
   Check,
   ChevronDown,
   CreditCard,
@@ -108,9 +107,9 @@ export default function BillingPage() {
 
   const taxableAmount = Math.max(subtotal - discount, 0);
 
-  // Placeholder tax rate for UI only.
-  // In production this should come from the product/service tax configuration.
-  const tax = taxEnabled ? Math.round(taxableAmount * 0.05) : 0;
+  const tax = taxEnabled
+    ? Math.round(taxableAmount * 0.05)
+    : 0;
 
   const total = taxableAmount + tax;
 
@@ -147,15 +146,14 @@ export default function BillingPage() {
 
   function updateQuantity(id: string, delta: number) {
     setItems((current) =>
-      current
-        .map((item) =>
-          item.id === id
-            ? {
-                ...item,
-                quantity: Math.max(1, item.quantity + delta),
-              }
-            : item,
-        ),
+      current.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              quantity: Math.max(1, item.quantity + delta),
+            }
+          : item,
+      ),
     );
   }
 
@@ -166,37 +164,40 @@ export default function BillingPage() {
   }
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-[#fafafa]">
-      <div className="mx-auto max-w-[1440px] px-5 py-7 sm:px-7 lg:px-10 lg:py-9">
+    <main className="h-[calc(100svh-64px)] overflow-hidden bg-[#f8faf9]">
+      <div className="mx-auto flex h-full max-w-[1500px] flex-col px-5 py-5 sm:px-7 lg:px-9">
 
         {/* =====================================================
-            HEADER
+            PAGE HEADER
         ===================================================== */}
 
-        <header className="flex flex-col gap-5 border-b border-slate-200 pb-7 lg:flex-row lg:items-end lg:justify-between">
+        <header className="flex shrink-0 items-end justify-between border-b border-slate-200 pb-4">
           <div>
-            <p className="text-[9px] font-semibold uppercase tracking-[0.3em] text-[#16C784]">
-              Transaction
-            </p>
+            <div className="flex items-center gap-3">
+              <span className="h-[2px] w-8 bg-[#16C784]" />
 
-            <h1 className="mt-2 text-4xl font-semibold tracking-[-0.065em] text-slate-950">
-              Create a transaction.
+              <span className="text-[10px] font-semibold uppercase tracking-[0.28em] text-[#16C784]">
+                Billing
+              </span>
+            </div>
+
+            <h1 className="mt-2 text-3xl font-semibold tracking-[-0.055em] text-slate-950 sm:text-4xl">
+              Create a bill
             </h1>
 
-            <p className="mt-3 max-w-xl text-sm leading-6 text-slate-400">
-              Sell a product, deliver a service, collect a payment or
-              record a charge — all through the same billing flow.
+            <p className="mt-1.5 text-sm text-slate-400">
+              Record a sale, service, or charge in one place.
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
-            <span className="hidden text-[9px] font-medium uppercase tracking-[0.2em] text-slate-300 sm:block">
+          <div className="hidden items-center gap-3 sm:flex">
+            <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-slate-300">
               Draft
             </span>
 
             <div className="rounded-lg border border-slate-200 bg-white px-3 py-2">
-              <p className="text-[9px] uppercase tracking-[0.15em] text-slate-400">
-                Transaction
+              <p className="text-[8px] uppercase tracking-[0.15em] text-slate-400">
+                Bill number
               </p>
 
               <p className="mt-0.5 text-xs font-semibold text-slate-900">
@@ -207,36 +208,36 @@ export default function BillingPage() {
         </header>
 
         {/* =====================================================
-            WORKSPACE
+            MAIN WORKSPACE
         ===================================================== */}
 
-        <div className="mt-8 grid gap-5 xl:grid-cols-[1fr_390px]">
+        <div className="mt-5 min-h-0 flex-1 grid gap-5 lg:grid-cols-[minmax(0,1fr)_350px]">
 
           {/* ===================================================
-              LEFT — TRANSACTION BUILDER
+              LEFT — BILL BUILDER
           =================================================== */}
 
-          <main className="space-y-5">
+          <section className="min-h-0 overflow-hidden rounded-2xl border border-slate-200 bg-white">
 
             {/* CUSTOMER */}
 
-            <section className="rounded-2xl border border-slate-200 bg-white p-5 sm:p-6">
+            <div className="border-b border-slate-100 px-5 py-4 sm:px-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-slate-400">
-                    Party
+                    Customer
                   </p>
 
-                  <h2 className="mt-1.5 text-lg font-semibold tracking-tight text-slate-950">
-                    Who is this transaction for?
+                  <h2 className="mt-1 text-base font-semibold tracking-tight text-slate-950">
+                    Who is this bill for?
                   </h2>
                 </div>
 
                 <UserRound className="h-4 w-4 text-slate-300" />
               </div>
 
-              <div className="mt-5 grid gap-3 sm:grid-cols-[1fr_auto]">
-                <div className="relative">
+              <div className="mt-3 flex gap-2">
+                <div className="relative min-w-0 flex-1">
                   <select
                     value={customer}
                     onChange={(event) =>
@@ -252,242 +253,237 @@ export default function BillingPage() {
                   <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                 </div>
 
-                <button className="h-11 rounded-xl border border-slate-200 bg-white px-4 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:text-slate-950">
-                  + New customer
+                <button
+                  type="button"
+                  className="h-11 shrink-0 rounded-xl border border-slate-200 bg-white px-4 text-xs font-semibold text-slate-600 transition hover:border-slate-300 hover:text-slate-950"
+                >
+                  + Customer
                 </button>
               </div>
-            </section>
+            </div>
 
-            {/* LINE ITEMS */}
+            {/* ITEMS HEADER */}
 
-            <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+            <div className="border-b border-slate-100 px-5 py-4 sm:px-6">
+              <div className="flex items-end justify-between gap-4">
+                <div>
+                  <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-slate-400">
+                    Items
+                  </p>
 
-              <div className="border-b border-slate-100 p-5 sm:p-6">
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-                  <div>
-                    <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-slate-400">
-                      Line items
-                    </p>
-
-                    <h2 className="mt-1.5 text-lg font-semibold tracking-tight text-slate-950">
-                      What are you charging for?
-                    </h2>
-                  </div>
-
-                  <div className="relative sm:w-[250px]">
-                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-
-                    <input
-                      value={search}
-                      onChange={(event) =>
-                        setSearch(event.target.value)
-                      }
-                      placeholder="Search products or services..."
-                      className="h-10 w-full rounded-lg border border-slate-200 bg-slate-50 pl-9 pr-3 text-xs outline-none transition placeholder:text-slate-400 focus:border-[#16C784] focus:bg-white"
-                    />
-                  </div>
+                  <h2 className="mt-1 text-base font-semibold tracking-tight text-slate-950">
+                    What are you charging for?
+                  </h2>
                 </div>
 
-                {/* QUICK CATALOGUE */}
+                <div className="relative hidden w-[260px] sm:block">
+                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
 
-                <div className="mt-5 flex gap-2 overflow-x-auto pb-1">
-                  {filteredCatalogue.map((item) => {
-                    const selected = items.some(
-                      (current) => current.id === item.id,
-                    );
-
-                    return (
-                      <button
-                        key={item.id}
-                        type="button"
-                        onClick={() => addItem(item)}
-                        className="group flex min-w-[180px] shrink-0 items-center gap-3 rounded-xl border border-slate-100 bg-slate-50 p-3 text-left transition hover:border-slate-200 hover:bg-white"
-                      >
-                        <div
-                          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${
-                            selected
-                              ? "bg-[#16C784]/10 text-[#16C784]"
-                              : "bg-white text-slate-400"
-                          }`}
-                        >
-                          {selected ? (
-                            <Check className="h-4 w-4" />
-                          ) : (
-                            <Plus className="h-4 w-4" />
-                          )}
-                        </div>
-
-                        <div className="min-w-0">
-                          <p className="truncate text-xs font-semibold text-slate-900">
-                            {item.name}
-                          </p>
-
-                          <p className="mt-0.5 text-[10px] text-slate-400">
-                            {item.type} · {formatCurrency(item.rate)}
-                          </p>
-                        </div>
-                      </button>
-                    );
-                  })}
+                  <input
+                    value={search}
+                    onChange={(event) =>
+                      setSearch(event.target.value)
+                    }
+                    placeholder="Search products or services"
+                    className="h-10 w-full rounded-lg border border-slate-200 bg-slate-50 pl-9 pr-3 text-xs outline-none transition placeholder:text-slate-400 focus:border-[#16C784] focus:bg-white"
+                  />
                 </div>
               </div>
 
-              {/* ITEMS */}
+              {/* CATALOGUE */}
 
-              <div>
-                {items.length === 0 ? (
-                  <div className="px-6 py-16 text-center">
+              <div className="mt-3 flex gap-2 overflow-hidden">
+                {filteredCatalogue.slice(0, 4).map((item) => {
+                  const selected = items.some(
+                    (current) => current.id === item.id,
+                  );
+
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => addItem(item)}
+                      className="group flex min-w-0 flex-1 items-center gap-2.5 rounded-xl border border-slate-100 bg-slate-50 px-3 py-2.5 text-left transition hover:border-slate-200 hover:bg-white"
+                    >
+                      <div
+                        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${
+                          selected
+                            ? "bg-[#16C784]/10 text-[#16C784]"
+                            : "bg-white text-slate-400"
+                        }`}
+                      >
+                        {selected ? (
+                          <Check className="h-4 w-4" />
+                        ) : (
+                          <Plus className="h-4 w-4" />
+                        )}
+                      </div>
+
+                      <div className="min-w-0">
+                        <p className="truncate text-[11px] font-semibold text-slate-900">
+                          {item.name}
+                        </p>
+
+                        <p className="mt-0.5 truncate text-[9px] text-slate-400">
+                          {item.type} · {formatCurrency(item.rate)}
+                        </p>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* ITEM TABLE */}
+
+            <div className="min-h-0">
+              {items.length === 0 ? (
+                <div className="flex h-[230px] items-center justify-center text-center">
+                  <div>
                     <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-slate-50">
                       <FileText className="h-5 w-5 text-slate-300" />
                     </div>
 
-                    <p className="mt-4 text-sm font-semibold text-slate-900">
-                      Nothing added yet.
+                    <p className="mt-3 text-sm font-semibold text-slate-900">
+                      No items added
                     </p>
 
                     <p className="mt-1 text-xs text-slate-400">
-                      Add a product, service or custom charge above.
+                      Choose a product or service above.
                     </p>
                   </div>
-                ) : (
-                  <>
-                    <div className="hidden grid-cols-[1fr_100px_120px_110px_40px] gap-4 border-b border-slate-100 px-6 py-3 text-[9px] font-semibold uppercase tracking-[0.15em] text-slate-300 sm:grid">
-                      <span>Description</span>
-                      <span>Type</span>
-                      <span>Quantity</span>
-                      <span className="text-right">Amount</span>
-                      <span />
-                    </div>
+                </div>
+              ) : (
+                <>
+                  {/* TABLE HEADER */}
 
-                    <div className="divide-y divide-slate-100">
-                      {items.map((item) => (
-                        <div
-                          key={item.id}
-                          className="grid gap-4 px-5 py-5 sm:grid-cols-[1fr_100px_120px_110px_40px] sm:items-center sm:px-6"
-                        >
-                          <div className="min-w-0">
-                            <p className="truncate text-xs font-semibold text-slate-900">
-                              {item.name}
-                            </p>
+                  <div className="hidden grid-cols-[1fr_90px_120px_100px_36px] gap-4 border-b border-slate-100 px-6 py-3 text-[9px] font-semibold uppercase tracking-[0.15em] text-slate-300 sm:grid">
+                    <span>Item</span>
+                    <span>Type</span>
+                    <span>Quantity</span>
+                    <span className="text-right">Amount</span>
+                    <span />
+                  </div>
 
-                            <p className="mt-1 text-[10px] text-slate-400">
-                              {formatCurrency(item.rate)} per unit
-                            </p>
-                          </div>
+                  {/* ITEMS */}
 
-                          <span className="w-fit rounded-full bg-slate-50 px-2 py-1 text-[9px] font-medium text-slate-400">
-                            {item.type}
-                          </span>
-
-                          <div className="flex w-fit items-center rounded-lg border border-slate-200">
-                            <button
-                              type="button"
-                              onClick={() =>
-                                updateQuantity(item.id, -1)
-                              }
-                              className="flex h-8 w-8 items-center justify-center text-slate-400 hover:text-slate-900"
-                            >
-                              <Minus className="h-3 w-3" />
-                            </button>
-
-                            <span className="w-8 text-center text-xs font-semibold text-slate-900">
-                              {item.quantity}
-                            </span>
-
-                            <button
-                              type="button"
-                              onClick={() =>
-                                updateQuantity(item.id, 1)
-                              }
-                              className="flex h-8 w-8 items-center justify-center text-slate-400 hover:text-slate-900"
-                            >
-                              <Plus className="h-3 w-3" />
-                            </button>
-                          </div>
-
-                          <p className="text-right text-xs font-semibold text-slate-900">
-                            {formatCurrency(
-                              item.rate * item.quantity,
-                            )}
+                  <div className="divide-y divide-slate-100">
+                    {items.slice(0, 3).map((item) => (
+                      <div
+                        key={item.id}
+                        className="grid gap-3 px-5 py-4 sm:grid-cols-[1fr_90px_120px_100px_36px] sm:items-center sm:px-6"
+                      >
+                        <div className="min-w-0">
+                          <p className="truncate text-sm font-semibold text-slate-900">
+                            {item.name}
                           </p>
+
+                          <p className="mt-1 text-[10px] text-slate-400">
+                            {formatCurrency(item.rate)} per unit
+                          </p>
+                        </div>
+
+                        <span className="w-fit rounded-full bg-slate-50 px-2 py-1 text-[9px] font-medium text-slate-400">
+                          {item.type}
+                        </span>
+
+                        <div className="flex w-fit items-center rounded-lg border border-slate-200">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              updateQuantity(item.id, -1)
+                            }
+                            className="flex h-8 w-8 items-center justify-center text-slate-400 transition hover:text-slate-900"
+                          >
+                            <Minus className="h-3 w-3" />
+                          </button>
+
+                          <span className="w-8 text-center text-xs font-semibold text-slate-900">
+                            {item.quantity}
+                          </span>
 
                           <button
                             type="button"
-                            onClick={() => removeItem(item.id)}
-                            className="hidden rounded-lg p-2 text-slate-300 transition hover:bg-red-50 hover:text-red-500 sm:block"
+                            onClick={() =>
+                              updateQuantity(item.id, 1)
+                            }
+                            className="flex h-8 w-8 items-center justify-center text-slate-400 transition hover:text-slate-900"
                           >
-                            <Trash2 className="h-4 w-4" />
+                            <Plus className="h-3 w-3" />
                           </button>
                         </div>
-                      ))}
-                    </div>
-                  </>
-                )}
-              </div>
 
-              {/* CUSTOM ITEM */}
+                        <p className="text-right text-sm font-semibold text-slate-900">
+                          {formatCurrency(
+                            item.rate * item.quantity,
+                          )}
+                        </p>
 
-              <div className="border-t border-slate-100 bg-slate-50/50 px-5 py-4 sm:px-6">
-                <button
-                  type="button"
-                  className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 transition hover:text-[#16C784]"
-                >
-                  <Plus className="h-3.5 w-3.5" />
-                  Add custom item
-                </button>
-              </div>
-            </section>
-
-            {/* OPTIONS */}
-
-            <section className="grid gap-3 sm:grid-cols-2">
-
-              {/* TAX */}
-
-              <div className="rounded-2xl border border-slate-200 bg-white p-5">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-slate-400">
-                      Tax
-                    </p>
-
-                    <h3 className="mt-1.5 text-sm font-semibold text-slate-900">
-                      Apply tax
-                    </h3>
-
-                    <p className="mt-1 text-xs text-slate-400">
-                      Tax configuration can vary by item.
-                    </p>
+                        <button
+                          type="button"
+                          onClick={() => removeItem(item.id)}
+                          className="hidden rounded-lg p-2 text-slate-300 transition hover:bg-red-50 hover:text-red-500 sm:block"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                    ))}
                   </div>
+                </>
+              )}
+            </div>
 
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setTaxEnabled((current) => !current)
-                    }
-                    className={`relative h-6 w-10 rounded-full transition ${
-                      taxEnabled
-                        ? "bg-[#16C784]"
-                        : "bg-slate-200"
-                    }`}
-                  >
-                    <span
-                      className={`absolute top-1 h-4 w-4 rounded-full bg-white shadow-sm transition ${
-                        taxEnabled ? "left-5" : "left-1"
-                      }`}
-                    />
-                  </button>
-                </div>
-              </div>
+            {/* ADD ITEM */}
 
-              {/* DISCOUNT */}
+            <div className="border-t border-slate-100 bg-slate-50/60 px-5 py-3 sm:px-6">
+              <button
+                type="button"
+                className="inline-flex items-center gap-2 text-xs font-semibold text-slate-500 transition hover:text-[#16C784]"
+              >
+                <Plus className="h-3.5 w-3.5" />
+                Add another item
+              </button>
+            </div>
+          </section>
 
-              <div className="rounded-2xl border border-slate-200 bg-white p-5">
-                <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-slate-400">
-                  Discount
-                </p>
+          {/* ===================================================
+              RIGHT — SUMMARY
+          =================================================== */}
 
-                <div className="mt-3 flex items-center gap-2">
+          <aside className="flex min-h-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white">
+
+            {/* SUMMARY HEADER */}
+
+            <div className="border-b border-slate-100 px-5 py-4">
+              <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-slate-400">
+                Bill summary
+              </p>
+
+              <h2 className="mt-1.5 truncate text-lg font-semibold tracking-tight text-slate-950">
+                {customer}
+              </h2>
+            </div>
+
+            <div className="flex min-h-0 flex-1 flex-col px-5 py-5">
+
+              {/* TOTALS */}
+
+              <div className="space-y-3">
+                <SummaryRow
+                  label="Items"
+                  value={`${items.length}`}
+                />
+
+                <SummaryRow
+                  label="Subtotal"
+                  value={formatCurrency(subtotal)}
+                />
+
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-slate-400">
+                    Discount
+                  </span>
+
                   <input
                     type="number"
                     min="0"
@@ -500,73 +496,57 @@ export default function BillingPage() {
                         ),
                       )
                     }
-                    placeholder="0"
-                    className="h-10 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm font-semibold text-slate-900 outline-none focus:border-[#16C784] focus:bg-white"
+                    placeholder="₹0"
+                    className="h-8 w-20 rounded-lg border border-slate-200 bg-slate-50 px-2 text-right text-xs font-semibold text-slate-900 outline-none focus:border-[#16C784] focus:bg-white"
                   />
+                </div>
 
-                  <span className="text-xs font-medium text-slate-400">
-                    ₹
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-slate-400">
+                    Tax
                   </span>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setTaxEnabled((current) => !current)
+                    }
+                    className={`relative h-5 w-9 rounded-full transition ${
+                      taxEnabled
+                        ? "bg-[#16C784]"
+                        : "bg-slate-200"
+                    }`}
+                  >
+                    <span
+                      className={`absolute top-0.5 h-4 w-4 rounded-full bg-white shadow-sm transition ${
+                        taxEnabled ? "left-[18px]" : "left-0.5"
+                      }`}
+                    />
+                  </button>
                 </div>
               </div>
-            </section>
-          </main>
 
-          {/* ===================================================
-              RIGHT — TRANSACTION SUMMARY
-          =================================================== */}
+              {/* TOTAL */}
 
-          <aside className="h-fit rounded-2xl border border-slate-200 bg-white xl:sticky xl:top-20">
-
-            <div className="border-b border-slate-100 p-6">
-              <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-slate-400">
-                Transaction summary
-              </p>
-
-              <h2 className="mt-2 truncate text-lg font-semibold tracking-tight text-slate-950">
-                {customer}
-              </h2>
-            </div>
-
-            <div className="space-y-5 p-6">
-
-              <SummaryRow
-                label="Items"
-                value={`${items.length}`}
-              />
-
-              <SummaryRow
-                label="Subtotal"
-                value={formatCurrency(subtotal)}
-              />
-
-              {discount > 0 && (
-                <SummaryRow
-                  label="Discount"
-                  value={`− ${formatCurrency(discount)}`}
-                />
-              )}
-
-              <SummaryRow
-                label="Tax"
-                value={formatCurrency(tax)}
-              />
-
-              <div className="border-t border-slate-100 pt-5">
+              <div className="mt-5 border-t border-slate-100 pt-5">
                 <p className="text-xs text-slate-400">
-                  Total
+                  Total to collect
                 </p>
 
-                <p className="mt-1 text-4xl font-semibold tracking-[-0.06em] text-slate-950">
+                <p className="mt-1 text-4xl font-semibold tracking-[-0.065em] text-slate-950">
                   {formatCurrency(total)}
+                </p>
+
+                <p className="mt-1 text-[10px] text-slate-400">
+                  Including {formatCurrency(tax)} tax
                 </p>
               </div>
 
               {/* PAYMENT */}
 
-              <div>
+              <div className="mt-6">
                 <p className="mb-2 text-[9px] font-semibold uppercase tracking-[0.2em] text-slate-400">
-                  Payment
+                  How was this paid?
                 </p>
 
                 <div className="grid grid-cols-3 gap-2">
@@ -601,7 +581,7 @@ export default function BillingPage() {
                               | "Partial",
                           )
                         }
-                        className={`flex flex-col items-center gap-1.5 rounded-xl border py-3 transition ${
+                        className={`flex h-[62px] flex-col items-center justify-center gap-1.5 rounded-xl border transition ${
                           active
                             ? "border-slate-950 bg-slate-950 text-white"
                             : "border-slate-200 bg-white text-slate-500 hover:border-slate-300"
@@ -609,7 +589,7 @@ export default function BillingPage() {
                       >
                         <Icon className="h-4 w-4" />
 
-                        <span className="text-[9px] font-semibold">
+                        <span className="text-[10px] font-semibold">
                           {method.label}
                         </span>
                       </button>
@@ -620,48 +600,51 @@ export default function BillingPage() {
 
               {/* COMPLETE */}
 
-              <button
-                type="button"
-                className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#16C784] text-sm font-semibold text-white shadow-[0_10px_25px_rgba(22,199,132,0.18)] transition hover:bg-[#12b977]"
-              >
-                <Check className="h-4 w-4" />
-                Complete transaction
-              </button>
+              <div className="mt-auto pt-6">
+                <button
+                  type="button"
+                  className="flex h-13 w-full items-center justify-center gap-2 rounded-xl bg-[#16C784] py-3.5 text-sm font-semibold text-white shadow-[0_10px_25px_rgba(22,199,132,0.18)] transition hover:bg-[#12b977]"
+                >
+                  <Check className="h-4 w-4" />
+                  Complete bill
+                </button>
 
-              <button
-                type="button"
-                className="flex w-full items-center justify-center gap-2 py-2 text-xs font-medium text-slate-400 transition hover:text-slate-700"
-              >
-                <X className="h-3.5 w-3.5" />
-                Discard draft
-              </button>
+                <button
+                  type="button"
+                  className="mt-2 flex w-full items-center justify-center gap-2 py-2 text-xs font-medium text-slate-400 transition hover:text-slate-700"
+                >
+                  <X className="h-3.5 w-3.5" />
+                  Discard
+                </button>
+              </div>
 
-              <p className="text-center text-[9px] leading-5 text-slate-400">
-                Completing this transaction can update the
-                connected customer, inventory, invoice and
-                payment records.
-              </p>
+              {/* SYSTEM MESSAGE */}
+
+              <div className="mt-3 rounded-xl bg-slate-50 px-3 py-2.5">
+                <p className="text-[10px] leading-4 text-slate-400">
+                  Completing this bill keeps the customer,
+                  inventory, invoice and payment records connected.
+                </p>
+              </div>
             </div>
           </aside>
         </div>
 
         {/* =====================================================
-            SYSTEM SIGNAL
+            BOTTOM SIGNAL
         ===================================================== */}
 
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 pt-5">
-          <p className="text-[8px] font-semibold uppercase tracking-[0.25em] text-slate-300">
-            Transaction engine
-          </p>
+        <footer className="mt-4 flex shrink-0 items-center justify-between border-t border-slate-200 pt-3">
+          <span className="text-[8px] font-semibold uppercase tracking-[0.25em] text-slate-300">
+            QuantPay Billing
+          </span>
 
-          <div className="flex items-center gap-2 text-[10px] text-slate-400">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#16C784]" />
-
-            One transaction → connected business records
-          </div>
-        </div>
+          <span className="hidden text-[9px] text-slate-300 sm:block">
+            One bill · connected business records
+          </span>
+        </footer>
       </div>
-    </div>
+    </main>
   );
 }
 
@@ -678,7 +661,7 @@ function SummaryRow({
         {label}
       </span>
 
-      <span className="text-xs font-semibold text-slate-900">
+      <span className="text-sm font-semibold text-slate-900">
         {value}
       </span>
     </div>
