@@ -1,530 +1,549 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import Link from "next/link";
 import {
-  ArrowDownLeft,
+  ArrowDownToLine,
   ArrowUpRight,
   BarChart3,
   Boxes,
   CalendarDays,
+  ChevronLeft,
+  ChevronRight,
   CreditCard,
-  Download,
-  IndianRupee,
+  FileBarChart,
+  FileText,
   Package,
   Receipt,
-  TrendingDown,
-  TrendingUp,
+  Users,
+  Wallet,
 } from "lucide-react";
 
-type Period = "7 days" | "30 days" | "90 days" | "This year";
-
-const salesData = [
-  { label: "01", sales: 8200, collections: 7600 },
-  { label: "05", sales: 12400, collections: 11800 },
-  { label: "10", sales: 9800, collections: 9200 },
-  { label: "15", sales: 15600, collections: 14300 },
-  { label: "20", sales: 13200, collections: 12600 },
-  { label: "25", sales: 18400, collections: 17100 },
-  { label: "29", sales: 22100, collections: 19800 },
-];
-
-const topProducts = [
+const reportModules = [
   {
-    name: "Premium Rice 25kg",
-    category: "Rice",
-    units: 34,
-    revenue: 40800,
+    number: "01",
+    title: "Executive Summary",
+    description: "A clear overview of business performance and position.",
+    href: "/app/reports/executive",
+    icon: FileBarChart,
   },
   {
-    name: "Basmati Rice 10kg",
-    category: "Rice",
-    units: 28,
-    revenue: 19600,
+    number: "02",
+    title: "Sales & Revenue",
+    description: "Review sales activity, revenue and business trends.",
+    href: "/app/reports/sales",
+    icon: Receipt,
   },
   {
-    name: "Wholesale Pack",
-    category: "Wholesale",
-    units: 21,
-    revenue: 25200,
+    number: "03",
+    title: "Payments",
+    description: "Understand collections, settlements and receivables.",
+    href: "/app/reports/payments",
+    icon: CreditCard,
   },
   {
-    name: "Toor Dal 5kg",
-    category: "Pulses",
-    units: 18,
-    revenue: 14400,
-  },
-];
-
-const customers = [
-  {
-    name: "Avyay Enterprises",
-    invoices: 18,
-    value: 184500,
+    number: "04",
+    title: "Expenses",
+    description: "Review spending and business expense patterns.",
+    href: "/app/reports/expenses",
+    icon: Wallet,
   },
   {
-    name: "Sharma Traders",
-    invoices: 14,
-    value: 126800,
+    number: "05",
+    title: "Customers",
+    description: "Understand customer activity and relationships.",
+    href: "/app/reports/customers",
+    icon: Users,
   },
   {
-    name: "Nova Distributors",
-    invoices: 11,
-    value: 94200,
+    number: "06",
+    title: "Products",
+    description: "Review product performance and sales movement.",
+    href: "/app/reports/products",
+    icon: Package,
   },
   {
-    name: "Kumar Stores",
-    invoices: 9,
-    value: 71800,
+    number: "07",
+    title: "Inventory",
+    description: "Review stock movement, availability and activity.",
+    href: "/app/reports/inventory",
+    icon: Boxes,
+  },
+  {
+    number: "08",
+    title: "Business Report",
+    description: "Generate a complete report for your business.",
+    href: "/app/reports/business",
+    icon: FileText,
   },
 ];
 
-const formatCurrency = (value: number) =>
-  new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  }).format(value);
+const periods = [
+  "This month",
+  "Last month",
+  "This quarter",
+  "This year",
+];
 
 export default function ReportsPage() {
-  const [period, setPeriod] = useState<Period>("30 days");
-
-  const totals = useMemo(() => {
-    const sales = salesData.reduce(
-      (sum, item) => sum + item.sales,
-      0
-    );
-
-    const collections = salesData.reduce(
-      (sum, item) => sum + item.collections,
-      0
-    );
-
-    const expenses = 28600;
-
-    return {
-      sales,
-      collections,
-      expenses,
-      outstanding: sales - collections,
-      net: collections - expenses,
-    };
-  }, []);
-
   return (
-    <div className="mx-auto max-w-7xl px-5 py-8 sm:px-7 lg:py-10">
-      {/* =====================================================
-          HEADER
-      ===================================================== */}
+    <main className="h-[calc(100svh-64px)] overflow-hidden bg-[#fafafa]">
+      <div className="mx-auto flex h-full max-w-[1500px] flex-col px-5 py-4 sm:px-7 lg:px-9">
 
-      <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-        <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[#16C784]">
-            Reports
-          </p>
+        {/* =====================================================
+            HEADER
+        ===================================================== */}
 
-          <h1 className="mt-2 text-3xl font-semibold tracking-[-0.045em] text-slate-950 sm:text-4xl">
-            See how your business is moving.
-          </h1>
+        <header className="flex shrink-0 items-end justify-between">
 
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
-            Turn your everyday transactions into a clear view of
-            sales, collections, expenses and business performance.
-          </p>
-        </div>
-
-        <div className="flex flex-wrap gap-2">
-          <div className="flex h-10 items-center rounded-lg border border-slate-200 bg-white p-1">
-            {(["7 days", "30 days", "90 days", "This year"] as Period[]).map(
-              (item) => (
-                <button
-                  key={item}
-                  onClick={() => setPeriod(item)}
-                  className={`h-8 rounded-md px-3 text-[10px] font-semibold transition ${
-                    period === item
-                      ? "bg-slate-950 text-white"
-                      : "text-slate-400 hover:text-slate-900"
-                  }`}
-                >
-                  {item}
-                </button>
-              )
-            )}
-          </div>
-
-          <button className="inline-flex h-10 items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 text-xs font-semibold text-slate-700 transition hover:border-slate-300 hover:text-slate-950">
-            <Download className="h-3.5 w-3.5" />
-            Export
-          </button>
-        </div>
-      </div>
-
-      {/* =====================================================
-          KEY NUMBERS
-      ===================================================== */}
-
-      <div className="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <MetricCard
-          icon={IndianRupee}
-          label="Sales"
-          value={formatCurrency(totals.sales)}
-          change="+12.8%"
-          positive
-        />
-
-        <MetricCard
-          icon={CreditCard}
-          label="Collected"
-          value={formatCurrency(totals.collections)}
-          change="+9.4%"
-          positive
-        />
-
-        <MetricCard
-          icon={Receipt}
-          label="Outstanding"
-          value={formatCurrency(totals.outstanding)}
-          change="To collect"
-          warning
-        />
-
-        <MetricCard
-          icon={ArrowDownLeft}
-          label="Expenses"
-          value={formatCurrency(totals.expenses)}
-          change="This period"
-        />
-      </div>
-
-      {/* =====================================================
-          SALES PERFORMANCE
-      ===================================================== */}
-
-      <section className="mt-6 rounded-2xl border border-slate-200 bg-white">
-        <div className="flex flex-col gap-3 border-b border-slate-100 px-5 py-5 sm:px-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-              Performance
+            <div className="flex items-center gap-2.5">
+              <span className="h-px w-7 bg-[#16C784]" />
+
+              <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#16C784]">
+                Reports
+              </span>
+            </div>
+
+            <h1 className="mt-2 text-3xl font-semibold leading-none tracking-[-0.065em] text-slate-950 sm:text-[36px]">
+              Understand your business.
+            </h1>
+
+            <p className="mt-2 text-sm text-slate-400">
+              Choose what you want to review, compare or download.
             </p>
-
-            <h2 className="mt-1 text-base font-semibold text-slate-950">
-              Sales & collections
-            </h2>
           </div>
 
-          <div className="flex items-center gap-4 text-[10px] font-medium">
-            <span className="flex items-center gap-1.5 text-slate-500">
-              <span className="h-1.5 w-1.5 rounded-full bg-slate-900" />
-              Sales
-            </span>
+          {/* Header actions */}
 
-            <span className="flex items-center gap-1.5 text-[#16C784]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#16C784]" />
-              Collections
-            </span>
+          <div className="hidden items-center gap-2 sm:flex">
+
+            <button
+              type="button"
+              className="
+                flex
+                h-9
+                items-center
+                gap-2
+                rounded-lg
+                border
+                border-slate-200
+                bg-white
+                px-3
+                text-xs
+                font-medium
+                text-slate-600
+                transition
+                hover:border-slate-300
+                hover:text-slate-950
+              "
+            >
+              <CalendarDays className="h-3.5 w-3.5 text-slate-400" />
+              Reporting period
+            </button>
+
+            <button
+              type="button"
+              className="
+                flex
+                h-9
+                items-center
+                gap-2
+                rounded-lg
+                bg-slate-950
+                px-3
+                text-xs
+                font-semibold
+                text-white
+                transition
+                hover:bg-black
+              "
+            >
+              <ArrowDownToLine className="h-3.5 w-3.5" />
+              Download report
+            </button>
+
           </div>
-        </div>
+        </header>
 
-        <div className="p-5 sm:p-6">
-          <div className="flex h-[260px] items-end gap-3 sm:gap-5">
-            {salesData.map((item) => {
-              const salesHeight =
-                (item.sales / 24000) * 100;
+        {/* =====================================================
+            REPORTING CONTROL
+        ===================================================== */}
 
-              const collectionHeight =
-                (item.collections / 24000) * 100;
+        <section className="mt-4 shrink-0 rounded-2xl border border-slate-200 bg-white p-3">
 
-              return (
-                <div
-                  key={item.label}
-                  className="group flex h-full flex-1 flex-col justify-end"
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+
+            {/* Period */}
+
+            <div className="flex items-center gap-3">
+
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-50">
+                <CalendarDays className="h-4 w-4 text-slate-500" />
+              </div>
+
+              <div>
+                <p className="text-xs font-semibold text-slate-900">
+                  Reporting period
+                </p>
+
+                <p className="text-[10px] text-slate-400">
+                  Select the period for your reports
+                </p>
+              </div>
+
+            </div>
+
+            {/* Period selector */}
+
+            <div className="flex items-center gap-1 overflow-hidden rounded-lg bg-slate-50 p-1">
+
+              {periods.map((period, index) => (
+                <button
+                  key={period}
+                  type="button"
+                  className={[
+                    "h-8 rounded-md px-3 text-[10px] font-semibold transition",
+                    index === 0
+                      ? "bg-white text-slate-950 shadow-sm"
+                      : "text-slate-400 hover:text-slate-700",
+                  ].join(" ")}
                 >
-                  <div className="relative flex h-full items-end justify-center gap-1">
-                    <div
-                      className="w-[35%] max-w-8 rounded-t-md bg-slate-900 transition-opacity group-hover:opacity-80"
-                      style={{
-                        height: `${salesHeight}%`,
-                      }}
-                      title={`Sales ${formatCurrency(item.sales)}`}
-                    />
+                  {period}
+                </button>
+              ))}
 
-                    <div
-                      className="w-[35%] max-w-8 rounded-t-md bg-[#16C784] transition-opacity group-hover:opacity-80"
-                      style={{
-                        height: `${collectionHeight}%`,
-                      }}
-                      title={`Collections ${formatCurrency(
-                        item.collections
-                      )}`}
-                    />
-                  </div>
-
-                  <span className="mt-3 text-center text-[9px] text-slate-400">
-                    {item.label}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">
-            <span className="text-[10px] text-slate-400">
-              Sales generated
-            </span>
-
-            <span className="text-xs font-semibold text-slate-900">
-              {formatCurrency(totals.sales)}
-            </span>
-          </div>
-        </div>
-      </section>
-
-      {/* =====================================================
-          SECONDARY REPORTS
-      ===================================================== */}
-
-      <div className="mt-6 grid gap-6 lg:grid-cols-2">
-        {/* Top products */}
-
-        <section className="rounded-2xl border border-slate-200 bg-white">
-          <div className="flex items-center justify-between border-b border-slate-100 px-5 py-5 sm:px-6">
-            <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                Products
-              </p>
-
-              <h2 className="mt-1 text-base font-semibold text-slate-950">
-                Best performing products
-              </h2>
             </div>
 
-            <Package className="h-4 w-4 text-slate-300" />
-          </div>
-
-          <div className="divide-y divide-slate-100">
-            {topProducts.map((product, index) => (
-              <div
-                key={product.name}
-                className="flex items-center gap-4 px-5 py-4 sm:px-6"
-              >
-                <span className="w-5 text-[10px] font-semibold text-slate-300">
-                  0{index + 1}
-                </span>
-
-                <div className="flex min-w-0 flex-1 items-center gap-3">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-50">
-                    <Boxes className="h-3.5 w-3.5 text-slate-500" />
-                  </div>
-
-                  <div className="min-w-0">
-                    <p className="truncate text-xs font-semibold text-slate-900">
-                      {product.name}
-                    </p>
-
-                    <p className="mt-1 text-[10px] text-slate-400">
-                      {product.category} · {product.units} units
-                    </p>
-                  </div>
-                </div>
-
-                <p className="text-xs font-semibold text-slate-900">
-                  {formatCurrency(product.revenue)}
-                </p>
-              </div>
-            ))}
           </div>
         </section>
 
-        {/* Top customers */}
+        {/* =====================================================
+            REPORT WORKSPACE
+        ===================================================== */}
 
-        <section className="rounded-2xl border border-slate-200 bg-white">
-          <div className="flex items-center justify-between border-b border-slate-100 px-5 py-5 sm:px-6">
+        <section className="mt-4 flex min-h-0 flex-1 flex-col">
+
+          {/* Section heading */}
+
+          <div className="flex shrink-0 items-end justify-between">
+
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                Customers
+              <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-slate-400">
+                Report center
               </p>
 
-              <h2 className="mt-1 text-base font-semibold text-slate-950">
-                Highest customer value
-              </h2>
+              <p className="mt-1 text-sm text-slate-400">
+                Independent reports for every part of your business.
+              </p>
             </div>
 
-            <TrendingUp className="h-4 w-4 text-slate-300" />
+            <span className="hidden text-[10px] font-medium uppercase tracking-[0.2em] text-slate-300 sm:block">
+              08 reports
+            </span>
+
           </div>
 
-          <div className="divide-y divide-slate-100">
-            {customers.map((customer, index) => (
-              <div
-                key={customer.name}
-                className="flex items-center gap-4 px-5 py-4 sm:px-6"
-              >
-                <span className="w-5 text-[10px] font-semibold text-slate-300">
-                  0{index + 1}
-                </span>
+          {/* =================================================
+              INDEPENDENT REPORT BUTTONS
+          ================================================= */}
 
-                <div className="flex min-w-0 flex-1 items-center gap-3">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-[10px] font-bold text-slate-500">
-                    {customer.name.charAt(0)}
-                  </div>
+          <div className="mt-3 min-h-0 flex-1">
 
-                  <div className="min-w-0">
-                    <p className="truncate text-xs font-semibold text-slate-900">
-                      {customer.name}
-                    </p>
+            <div className="grid h-full grid-cols-2 gap-2.5 lg:grid-cols-4 lg:grid-rows-2">
 
-                    <p className="mt-1 text-[10px] text-slate-400">
-                      {customer.invoices} invoices
-                    </p>
-                  </div>
-                </div>
+              {reportModules.map((report) => {
+                const Icon = report.icon;
 
-                <p className="text-xs font-semibold text-slate-900">
-                  {formatCurrency(customer.value)}
-                </p>
-              </div>
-            ))}
+                return (
+                  <Link
+                    key={report.href}
+                    href={report.href}
+                    className="
+                      group
+                      relative
+                      flex
+                      min-h-0
+                      flex-col
+                      overflow-hidden
+                      rounded-xl
+                      border
+                      border-slate-200
+                      bg-white
+                      p-4
+                      shadow-[0_1px_3px_rgba(15,23,42,0.025)]
+                      transition-all
+                      duration-200
+                      hover:-translate-y-0.5
+                      hover:border-slate-300
+                      hover:shadow-[0_12px_30px_rgba(15,23,42,0.07)]
+                      sm:p-5
+                    "
+                  >
+
+                    {/* Green hover line */}
+
+                    <span
+                      className="
+                        absolute
+                        left-0
+                        top-0
+                        h-[2px]
+                        w-0
+                        bg-[#16C784]
+                        transition-all
+                        duration-300
+                        group-hover:w-full
+                      "
+                    />
+
+                    {/* -----------------------------------------
+                        TOP
+                    ----------------------------------------- */}
+
+                    <div className="flex shrink-0 items-center justify-between">
+
+                      <span className="text-[9px] font-semibold tracking-[0.2em] text-slate-300">
+                        {report.number}
+                      </span>
+
+                      <div
+                        className="
+                          flex
+                          h-8
+                          w-8
+                          items-center
+                          justify-center
+                          rounded-lg
+                          bg-slate-50
+                          transition-colors
+                          group-hover:bg-[#16C784]/10
+                        "
+                      >
+                        <Icon
+                          className="
+                            h-4
+                            w-4
+                            text-slate-400
+                            transition-colors
+                            group-hover:text-[#16C784]
+                          "
+                        />
+                      </div>
+
+                    </div>
+
+                    {/* -----------------------------------------
+                        CONTENT
+                    ----------------------------------------- */}
+
+                    <div className="mt-3 min-w-0">
+
+                      <h2
+                        className="
+                          text-lg
+                          font-semibold
+                          leading-tight
+                          tracking-[-0.035em]
+                          text-slate-950
+                          sm:text-xl
+                        "
+                      >
+                        {report.title}
+                      </h2>
+
+                      <p className="mt-1.5 max-w-[260px] text-xs leading-4 text-slate-400">
+                        {report.description}
+                      </p>
+
+                    </div>
+
+                    {/* -----------------------------------------
+                        ACTION
+                    ----------------------------------------- */}
+
+                    <div className="mt-auto flex items-center justify-between pt-4">
+
+                      <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-300 transition-colors group-hover:text-[#16C784]">
+                        Open report
+                      </span>
+
+                      <span
+                        className="
+                          flex
+                          h-7
+                          w-7
+                          shrink-0
+                          items-center
+                          justify-center
+                          rounded-full
+                          border
+                          border-slate-200
+                          transition-all
+                          group-hover:border-[#16C784]/30
+                          group-hover:bg-[#16C784]/10
+                        "
+                      >
+                        <ArrowUpRight
+                          className="
+                            h-3.5
+                            w-3.5
+                            text-slate-300
+                            transition-all
+                            group-hover:-translate-y-0.5
+                            group-hover:translate-x-0.5
+                            group-hover:text-[#16C784]
+                          "
+                        />
+                      </span>
+
+                    </div>
+
+                  </Link>
+                );
+              })}
+
+            </div>
           </div>
         </section>
-      </div>
 
-      {/* =====================================================
-          BUSINESS POSITION
-      ===================================================== */}
+        {/* =====================================================
+            BOTTOM ACTION STRIP
+        ===================================================== */}
 
-      <section className="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-slate-950 text-white">
-        <div className="relative p-6 sm:p-8">
-          <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full bg-[#16C784]/10 blur-[90px]" />
+        <section className="mt-3 grid shrink-0 grid-cols-1 gap-2 sm:grid-cols-3">
 
-          <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
-            <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#16C784]">
-                Business position
+          {/* Executive */}
+
+          <Link
+            href="/app/reports/executive"
+            className="
+              group
+              flex
+              h-11
+              items-center
+              gap-3
+              rounded-xl
+              border
+              border-slate-200
+              bg-white
+              px-3.5
+              transition-all
+              hover:border-slate-300
+              hover:shadow-[0_8px_20px_rgba(15,23,42,0.04)]
+            "
+          >
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-50">
+              <BarChart3 className="h-3.5 w-3.5 text-slate-500" />
+            </div>
+
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-semibold text-slate-900">
+                Executive summary
               </p>
 
-              <h2 className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">
-                {formatCurrency(totals.net)}
-              </h2>
-
-              <p className="mt-2 max-w-xl text-sm leading-6 text-white/45">
-                Collected revenue after recorded expenses for the
-                selected period.
+              <p className="text-[9px] text-slate-400">
+                A complete business overview
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-8 border-t border-white/10 pt-5 lg:border-t-0 lg:pt-0">
-              <DarkMetric
-                label="Collected"
-                value={formatCurrency(totals.collections)}
-              />
+            <ChevronRight className="h-3.5 w-3.5 text-slate-300 transition-transform group-hover:translate-x-0.5" />
+          </Link>
 
-              <DarkMetric
-                label="Expenses"
-                value={formatCurrency(totals.expenses)}
-              />
+          {/* Calendar */}
 
-              <DarkMetric
-                label="Outstanding"
-                value={formatCurrency(totals.outstanding)}
-              />
+          <button
+            type="button"
+            className="
+              group
+              flex
+              h-11
+              items-center
+              gap-3
+              rounded-xl
+              border
+              border-slate-200
+              bg-white
+              px-3.5
+              text-left
+              transition-all
+              hover:border-slate-300
+              hover:shadow-[0_8px_20px_rgba(15,23,42,0.04)]
+            "
+          >
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-50">
+              <CalendarDays className="h-3.5 w-3.5 text-slate-500" />
             </div>
-          </div>
+
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-semibold text-slate-900">
+                Reporting calendar
+              </p>
+
+              <p className="text-[9px] text-slate-400">
+                Choose dates and periods
+              </p>
+            </div>
+
+            <ChevronRight className="h-3.5 w-3.5 text-slate-300 transition-transform group-hover:translate-x-0.5" />
+          </button>
+
+          {/* Download */}
+
+          <button
+            type="button"
+            className="
+              group
+              flex
+              h-11
+              items-center
+              gap-3
+              rounded-xl
+              border
+              border-slate-200
+              bg-white
+              px-3.5
+              text-left
+              transition-all
+              hover:border-slate-300
+              hover:shadow-[0_8px_20px_rgba(15,23,42,0.04)]
+            "
+          >
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-950 text-white">
+              <ArrowDownToLine className="h-3.5 w-3.5" />
+            </div>
+
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-semibold text-slate-900">
+                Download reports
+              </p>
+
+              <p className="text-[9px] text-slate-400">
+                Export business reports
+              </p>
+            </div>
+
+            <ArrowUpRight className="h-3.5 w-3.5 text-slate-300 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </button>
+
+        </section>
+
+        {/* =====================================================
+            FOOTER SIGNAL
+        ===================================================== */}
+
+        <div className="mt-2 flex shrink-0 items-center justify-between">
+
+          <span className="text-[9px] font-semibold uppercase tracking-[0.25em] text-slate-300">
+            QuantPay Reports
+          </span>
+
+          <span className="text-[10px] text-slate-300">
+            Clear reports. Better decisions.
+          </span>
+
         </div>
-      </section>
 
-      {/* =====================================================
-          FOOTER SIGNAL
-      ===================================================== */}
-
-      <div className="mt-8 flex items-center justify-between border-t border-slate-200 pt-5">
-        <p className="text-[9px] font-semibold uppercase tracking-[0.22em] text-slate-300">
-          Business intelligence
-        </p>
-
-        <p className="hidden text-[10px] text-slate-400 sm:block">
-          Transactions → Insights → Decisions
-        </p>
       </div>
-    </div>
-  );
-}
-
-function MetricCard({
-  icon: Icon,
-  label,
-  value,
-  change,
-  positive = false,
-  warning = false,
-}: {
-  icon: typeof IndianRupee;
-  label: string;
-  value: string;
-  change: string;
-  positive?: boolean;
-  warning?: boolean;
-}) {
-  return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5">
-      <div className="flex items-center justify-between">
-        <p className="text-xs font-medium text-slate-500">
-          {label}
-        </p>
-
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-50">
-          <Icon className="h-4 w-4 text-slate-500" />
-        </div>
-      </div>
-
-      <p className="mt-5 text-2xl font-semibold tracking-tight text-slate-950">
-        {value}
-      </p>
-
-      <div className="mt-2 flex items-center gap-1.5">
-        {positive && (
-          <ArrowUpRight className="h-3 w-3 text-[#16C784]" />
-        )}
-
-        {warning && (
-          <ClockIcon />
-        )}
-
-        <span
-          className={`text-[10px] font-medium ${
-            positive
-              ? "text-[#16C784]"
-              : warning
-                ? "text-amber-500"
-                : "text-slate-400"
-          }`}
-        >
-          {change}
-        </span>
-      </div>
-    </div>
-  );
-}
-
-function DarkMetric({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
-  return (
-    <div>
-      <p className="text-[9px] uppercase tracking-[0.18em] text-white/30">
-        {label}
-      </p>
-
-      <p className="mt-1 text-sm font-semibold text-white">
-        {value}
-      </p>
-    </div>
-  );
-}
-
-function ClockIcon() {
-  return (
-    <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+    </main>
   );
 }
