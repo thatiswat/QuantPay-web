@@ -8,27 +8,19 @@ type QuantPayLogoProps = HTMLAttributes<HTMLDivElement> & {
 const sizes = {
   sm: {
     mark: "h-7 w-7",
-    text: "text-[17px]",
-    gap: "gap-3",
-    letterGap: "gap-[0.16em]",
+    text: "text-[18px]",
   },
 
   md: {
     mark: "h-9 w-9",
-    text: "text-[24px]",
-    gap: "gap-3.5",
-    letterGap: "gap-[0.16em]",
+    text: "text-[25px]",
   },
 
   lg: {
     mark: "h-12 w-12",
-    text: "text-[32px]",
-    gap: "gap-4",
-    letterGap: "gap-[0.15em]",
+    text: "text-[34px]",
   },
 };
-
-const letters = "QUANTPAY".split("");
 
 export default function QuantPayLogo({
   variant = "wordmark",
@@ -65,38 +57,28 @@ export default function QuantPayLogo({
 
   return (
     <div
-      className={`inline-flex items-center ${scale.gap} ${className}`}
+      className={`inline-flex items-center ${className}`}
       aria-label="QuantPay"
       role="img"
       {...props}
     >
-      {/* Q MARK */}
-
-      <img
-        src="/quantpay-q.svg"
-        alt=""
-        className={`${scale.mark} shrink-0 object-contain`}
-      />
-
-      {/* WORDMARK */}
-
       <span
         className={[
-          "inline-flex items-center",
-          scale.letterGap,
-          scale.text,
           "whitespace-nowrap",
           "font-bold",
           "leading-none",
-          "text-current",
-          "[font-family:'Century_Gothic','Century Gothic',sans-serif]",
+          "tracking-[-0.045em]",
+          scale.text,
+          "[font-family:'Space_Grotesk',sans-serif]",
         ].join(" ")}
       >
-        {letters.map((letter, index) => (
-          <span key={`${letter}-${index}`}>
-            {letter}
-          </span>
-        ))}
+        <span className="text-[#13152A]">
+          Quant
+        </span>
+
+        <span className="text-[#12B57C]">
+          pay
+        </span>
       </span>
     </div>
   );
