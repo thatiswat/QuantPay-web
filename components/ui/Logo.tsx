@@ -7,20 +7,20 @@ type QuantPayLogoProps = HTMLAttributes<HTMLDivElement> & {
 
 const sizes = {
   sm: {
-    mark: "h-7 w-7",
-    text: "text-[18px]",
+    mark: "h-8 w-8",
+    text: "text-[20px]",
   },
 
   md: {
-    mark: "h-9 w-9",
-    text: "text-[25px]",
+    mark: "h-10 w-10",
+    text: "text-[28px]",
   },
 
   lg: {
     mark: "h-12 w-12",
-    text: "text-[34px]",
+    text: "text-[36px]",
   },
-};
+} as const;
 
 export default function QuantPayLogo({
   variant = "wordmark",
@@ -38,13 +38,14 @@ export default function QuantPayLogo({
     return (
       <div
         className={`inline-flex shrink-0 ${className}`}
-        aria-label="QuantPay"
+        aria-label="Quantpay"
         role="img"
         {...props}
       >
         <img
           src="/quantpay-q.svg"
           alt=""
+          aria-hidden="true"
           className={`${scale.mark} object-contain`}
         />
       </div>
@@ -58,7 +59,7 @@ export default function QuantPayLogo({
   return (
     <div
       className={`inline-flex items-center ${className}`}
-      aria-label="QuantPay"
+      aria-label="Quantpay"
       role="img"
       {...props}
     >
@@ -69,16 +70,11 @@ export default function QuantPayLogo({
           "leading-none",
           "tracking-[-0.045em]",
           scale.text,
-          "[font-family:'Space_Grotesk',sans-serif]",
+          "font-[family-name:var(--font-space-grotesk)]",
         ].join(" ")}
       >
-        <span className="text-[#13152A]">
-          Quant
-        </span>
-
-        <span className="text-[#12B57C]">
-          pay
-        </span>
+        <span className="text-[#13152A]">Quant</span>
+        <span className="text-[#12B57C]">pay</span>
       </span>
     </div>
   );

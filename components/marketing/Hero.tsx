@@ -96,7 +96,7 @@ export default function Hero() {
             }`}
           >
             <Link
-              href="/app"
+              href="https://app.quantpay.in"
               className="group inline-flex h-12 items-center justify-center rounded-xl bg-[#0D0D0D] px-7 text-sm font-semibold text-white shadow-[0_12px_35px_rgba(13,13,13,0.10)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_45px_rgba(13,13,13,0.16)]"
             >
               Get started

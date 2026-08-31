@@ -47,7 +47,7 @@ export default function Navbar() {
 
         <div className="flex shrink-0 items-center">
           <Link
-            href="/app"
+            href="https://app.quantpay.in"
             className="inline-flex h-10 items-center justify-center rounded-lg bg-[#0D0D0D] px-4 text-[13px] font-semibold text-white transition-all duration-200 hover:bg-black hover:shadow-[0_6px_18px_rgba(13,13,13,0.12)]"
           >
             Get started
