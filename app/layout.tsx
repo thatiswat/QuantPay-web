@@ -11,7 +11,7 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "Quantpay — Business Finance, Finally in One Place",
   description:
-    "QuantPay helps Indian businesses manage customers, products, inventory, invoices, payments and business finances from one connected workspace.",
+    "Quantpay is a connected business platform for Indian businesses to manage billing, inventory, customers, staff, payments, and everyday business operations in one place.",
 };
 
 export default function RootLayout({
@@ -20,10 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={spaceGrotesk.variable}
-    >
+    <html lang="en" className={spaceGrotesk.variable}>
       <body className="min-h-screen bg-white text-slate-950 antialiased">
         {children}
       </body>
