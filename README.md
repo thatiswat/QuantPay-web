@@ -1,36 +1,253 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Quantpay Web
 
-## Getting Started
+The official public-facing website for **Quantpay** — a connected business platform built for Indian businesses.
 
-First, run the development server:
+Quantpay brings everyday business operations into one connected system, helping businesses manage their workflow from billing and inventory to customers and payments.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Overview
+
+`quantpay-web` is the **marketing and product website** for Quantpay.
+
+It is intentionally separated from the actual business application.
+
+| Platform     | Purpose                                          | Domain            |
+| ------------ | ------------------------------------------------ | ----------------- |
+| Quantpay Web | Marketing, product information, company presence | `quantpay.in`     |
+| Quantpay App | Business application                             | `app.quantpay.in` |
+
+The application is maintained in the separate `quantpay-app` repository.
+
+## Website
+
+**Production:** `https://quantpay.in`
+
+**Application:** `https://app.quantpay.in`
+
+The website's primary conversion points direct users to the Quantpay application.
+
+## What the Website Contains
+
+* Quantpay homepage
+* Product overview
+* Product experience sections
+* Billing/product demonstrations
+* Inventory/product demonstrations
+* Customer and payment demonstrations
+* Enterprise positioning
+* Calls to action
+* Contact and product navigation
+* SEO metadata
+* Robots and sitemap configuration
+
+The product components under `components/product` are **marketing presentation components**, not the actual application modules.
+
+## Architecture
+
+```text
+                         Quantpay
+                            │
+              ┌─────────────┴─────────────┐
+              │                           │
+        quantpay-web                 quantpay-app
+              │                           │
+        quantpay.in                app.quantpay.in
+              │                           │
+         Marketing                   Application
+              │                           │
+       Product website              Dashboard
+       Product pages                Billing
+       Company presence             Customers
+       Enterprise                   Inventory
+       Contact                      Invoices
+                                    Payments
+                                    Expenses
+                                    Reports
+                                    Settings
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This separation keeps the public website isolated from business application logic and customer data.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+* **Next.js 16**
+* **React**
+* **TypeScript**
+* **Tailwind CSS**
+* **Space Grotesk**
+* **Lucide React**
+* **pnpm**
+* **Vercel**
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```text
+quantpay-web/
+│
+├── app/
+│   ├── (marketing)/
+│   │   ├── layout.tsx
+│   │   └── product/
+│   │       └── page.tsx
+│   │
+│   ├── favicon.ico
+│   ├── globals.css
+│   ├── layout.tsx
+│   ├── page.tsx
+│   ├── robots.ts
+│   └── sitemap.ts
+│
+├── components/
+│   ├── marketing/
+│   ├── product/
+│   └── ui/
+│
+├── features/
+├── hooks/
+├── lib/
+├── public/
+├── services/
+├── types/
+│
+├── next.config.ts
+├── package.json
+├── pnpm-lock.yaml
+├── postcss.config.mjs
+├── tsconfig.json
+└── README.md
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Local Development
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Install dependencies:
 
-## Deploy on Vercel
+```bash
+pnpm install
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Start the development server:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+pnpm dev
+```
+
+Open:
+
+```text
+http://localhost:3000
+```
+
+## Production Build
+
+Run:
+
+```bash
+pnpm build
+```
+
+The current public routes are:
+
+```text
+/
+ /product
+ /robots.txt
+ /sitemap.xml
+```
+
+## Deployment
+
+The website is deployed through **Vercel**.
+
+```text
+GitHub
+   │
+   ▼
+quantpay-web
+   │
+   ▼
+Vercel
+   │
+   ▼
+quantpay.in
+```
+
+The application has its own independent deployment:
+
+```text
+GitHub
+   │
+   ▼
+quantpay-app
+   │
+   ▼
+Vercel
+   │
+   ▼
+app.quantpay.in
+```
+
+## Security
+
+The marketing website is intentionally isolated from the application.
+
+Current baseline protections include:
+
+* HTTPS through Vercel
+* HSTS
+* `X-Content-Type-Options: nosniff`
+* `X-Frame-Options: DENY`
+* Strict referrer policy
+* Restricted browser permissions
+* Environment files excluded from Git
+* `node_modules` excluded from Git
+* `.next` excluded from Git
+* Dependency audit with no known vulnerabilities at the current check
+* No application/database credentials in the marketing codebase
+
+Security-sensitive application functionality belongs in `quantpay-app` and the Quantpay backend.
+
+## Design Principles
+
+Quantpay's public website follows a minimal, product-focused visual system:
+
+* Clean white/neutral surfaces
+* Quantpay green as the primary accent
+* Dark typography
+* Space Grotesk typography
+* Generous whitespace
+* Minimal visual noise
+* Product-led presentation
+* Clear conversion paths
+* Responsive layouts
+* Subtle motion and interaction
+
+## Development Principle
+
+`quantpay-web` should remain **marketing-only**.
+
+Do not introduce:
+
+* Business transaction processing
+* Customer databases
+* Billing logic
+* Inventory logic
+* Payment processing
+* Staff management
+* Application authentication
+* Business APIs
+* Sensitive business data
+
+Those belong to:
+
+```text
+quantpay-app
+    +
+Quantpay API
+    +
+PostgreSQL
+```
+
+## License
+
+Proprietary software.
+
+© Quantpay. All rights reserved.
